@@ -42,10 +42,10 @@ void EUSCI_B0_graceInit(void)
 
     /* initialize I2C master mode */
     initI2CMasterParam.selectClockSource = EUSCI_B_I2C_CLOCKSOURCE_SMCLK;
-    initI2CMasterParam.i2cClk = 1000000;
-    initI2CMasterParam.dataRate = EUSCI_B_I2C_SET_DATA_RATE_100KBPS;
+    initI2CMasterParam.i2cClk = 2000000;
+    initI2CMasterParam.dataRate = EUSCI_B_I2C_SET_DATA_RATE_400KBPS;
     initI2CMasterParam.byteCounterThreshold = 0;
-    initI2CMasterParam.autoSTOPGeneration = EUSCI_B_I2C_NO_AUTO_STOP;
+    initI2CMasterParam.autoSTOPGeneration = EUSCI_B_I2C_SEND_STOP_AUTOMATICALLY_ON_BYTECOUNT_THRESHOLD;
     EUSCI_B_I2C_initMaster(EUSCI_B0_BASE, &initI2CMasterParam);
 
     /* set mode of I2C */

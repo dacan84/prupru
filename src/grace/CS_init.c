@@ -42,14 +42,14 @@ void CS_graceInit(void)
     CS_setDCOFreq(CS_DCORSEL_0, CS_DCOFSEL_3);
 
     /*
-     * Setting MCLK source from CS_DCOCLK_SELECT with the divider of CS_CLOCK_DIVIDER_8.
+     * Setting MCLK source from CS_DCOCLK_SELECT with the divider of CS_CLOCK_DIVIDER_2.
      */
-    CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_8);
+    CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_2);
 
     /*
-     * Setting SMCLK source from CS_DCOCLK_SELECT with the divider of CS_CLOCK_DIVIDER_8.
+     * Setting SMCLK source from CS_DCOCLK_SELECT with the divider of CS_CLOCK_DIVIDER_4.
      */
-    CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_8);
+    CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_4);
 
     /*
      * Setting ACLK source from CS_VLOCLK_SELECT with the divider of CS_CLOCK_DIVIDER_1.

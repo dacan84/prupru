@@ -10,13 +10,16 @@ CFG_SRCS += \
 ../main.cfg 
 
 C_SRCS += \
-../main.c 
+../main.c \
+../sht25.c 
 
 OBJS += \
-./main.obj 
+./main.obj \
+./sht25.obj 
 
 C_DEPS += \
-./main.pp 
+./main.pp \
+./sht25.pp 
 
 GEN_MISC_DIRS += \
 ./configPkg/ 
@@ -39,13 +42,16 @@ GEN_MISC_DIRS__QUOTED += \
 "configPkg\" 
 
 C_DEPS__QUOTED += \
-"main.pp" 
+"main.pp" \
+"sht25.pp" 
 
 OBJS__QUOTED += \
-"main.obj" 
+"main.obj" \
+"sht25.obj" 
 
 C_SRCS__QUOTED += \
-"../main.c" 
+"../main.c" \
+"../sht25.c" 
 
 GEN_CMDS__FLAG += \
 -l"./configPkg/linker.cmd" 
