@@ -60,7 +60,7 @@ void PinMux_graceInit(void)
     P1SEL1 = BIT6 | BIT7;
 
     /* Port 1 Direction Register */
-    P1DIR = 0;
+    P1DIR = BIT4 | BIT5;
 
     /* Port 1 Interrupt Edge Select */
     P1IES = 0;

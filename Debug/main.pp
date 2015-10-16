@@ -39,7 +39,14 @@ main.obj: C:/ti/msp430/MSPWare_2_20_00_19/driverlib/driverlib/MSP430FR57xx/tlv.h
 main.obj: C:/ti/msp430/MSPWare_2_20_00_19/driverlib/driverlib/MSP430FR57xx/wdt_a.h
 main.obj: ../src/grace/_Grace.h
 main.obj: ../ligth_sensor_MAX44009.h
-main.obj: ../sht25.h
+main.obj: ../typedefs.h
+main.obj: ../SHT2x.h
+main.obj: ../I2C_HAL.h
+main.obj: ../System.h
+main.obj: C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include/assert.h
+main.obj: C:/ti/msp430/MSPWare_2_20_00_19/driverlib/driverlib/MSP430FR57xx/driverlib.h
+main.obj: C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include/stdio.h
+main.obj: C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include/stdarg.h
 
 ../main.c: 
 C:/ti/ccsv6/ccs_base/msp430/include/msp430.h: 
@@ -80,4 +87,11 @@ C:/ti/msp430/MSPWare_2_20_00_19/driverlib/driverlib/MSP430FR57xx/tlv.h:
 C:/ti/msp430/MSPWare_2_20_00_19/driverlib/driverlib/MSP430FR57xx/wdt_a.h: 
 ../src/grace/_Grace.h: 
 ../ligth_sensor_MAX44009.h: 
-../sht25.h: 
+../typedefs.h: 
+../SHT2x.h: 
+../I2C_HAL.h: 
+../System.h: 
+C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include/assert.h: 
+C:/ti/msp430/MSPWare_2_20_00_19/driverlib/driverlib/MSP430FR57xx/driverlib.h: 
+C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include/stdio.h: 
+C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include/stdarg.h: 

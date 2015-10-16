@@ -10,16 +10,22 @@ CFG_SRCS += \
 ../main.cfg 
 
 C_SRCS += \
-../main.c \
-../sht25.c 
+../I2C_HAL.c \
+../SHT2x.c \
+../System.c \
+../main.c 
 
 OBJS += \
-./main.obj \
-./sht25.obj 
+./I2C_HAL.obj \
+./SHT2x.obj \
+./System.obj \
+./main.obj 
 
 C_DEPS += \
-./main.pp \
-./sht25.pp 
+./I2C_HAL.pp \
+./SHT2x.pp \
+./System.pp \
+./main.pp 
 
 GEN_MISC_DIRS += \
 ./configPkg/ 
@@ -42,16 +48,22 @@ GEN_MISC_DIRS__QUOTED += \
 "configPkg\" 
 
 C_DEPS__QUOTED += \
-"main.pp" \
-"sht25.pp" 
+"I2C_HAL.pp" \
+"SHT2x.pp" \
+"System.pp" \
+"main.pp" 
 
 OBJS__QUOTED += \
-"main.obj" \
-"sht25.obj" 
+"I2C_HAL.obj" \
+"SHT2x.obj" \
+"System.obj" \
+"main.obj" 
 
 C_SRCS__QUOTED += \
-"../main.c" \
-"../sht25.c" 
+"../I2C_HAL.c" \
+"../SHT2x.c" \
+"../System.c" \
+"../main.c" 
 
 GEN_CMDS__FLAG += \
 -l"./configPkg/linker.cmd" 

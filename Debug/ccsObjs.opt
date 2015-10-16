@@ -1,1 +1,1 @@
-"./main.obj" "./sht25.obj" "../lnk_msp430fr5739.cmd" -l"./configPkg/linker.cmd" -l"libmath.a" -l"libc.a" 
+"./I2C_HAL.obj" "./SHT2x.obj" "./System.obj" "./main.obj" "../lnk_msp430fr5739.cmd" -l"./configPkg/linker.cmd" -l"libmath.a" -l"libc.a" 

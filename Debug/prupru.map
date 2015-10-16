@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v4.4.4                      
 ******************************************************************************
->> Linked Thu Jul 23 14:03:53 2015
+>> Linked Fri Oct 16 11:14:37 2015
 
 OUTPUT FILE NAME:   <prupru.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs_noexit"  address: 0000c8d8
+ENTRY POINT SYMBOL: "_c_int00_noargs_noexit"  address: 0000e7bc
 
 
 MEMORY CONFIGURATION
@@ -16,8 +16,8 @@ MEMORY CONFIGURATION
   PERIPHERALS_16BIT     00000100   00000100  00000000  00000100  RWIX
   INFOB                 00001800   00000080  00000000  00000080  RWIX
   INFOA                 00001880   00000080  00000000  00000080  RWIX
-  RAM                   00001c00   00000400  00000048  000003b8  RWIX
-  FRAM                  0000c200   00003d80  0000086e  00003512  RWIX
+  RAM                   00001c00   00000400  0000027a  00000186  RWIX
+  FRAM                  0000c200   00003d80  0000286e  00001512  RWIX
   JTAGSIGNATURE         0000ff80   00000004  00000004  00000000  RWIX  ffff 
   BSLSIGNATURE          0000ff84   00000004  00000004  00000000  RWIX  ffff 
   IPESIGNATURE          0000ff88   00000008  00000008  00000000  RWIX  ffff 
@@ -84,8 +84,21 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.bss       0    00001c00    00000008     UNINITIALIZED
-                  00001c00    00000008     (.common:measures)
+.data      0    00001c00    00000188     UNINITIALIZED
+                  00001c00    000000c8     rts430x_lc_rd_eabi.lib : defs.obj (.data:_ftable)
+                  00001cc8    00000078                            : lowlev.obj (.data:_device)
+                  00001d40    0000003c                            : lowlev.obj (.data:_stream)
+                  00001d7c    00000004                            : _lock.obj (.data:_lock)
+                  00001d80    00000004                            : _lock.obj (.data:_unlock)
+                  00001d84    00000002                            : defs.obj (.data)
+                  00001d86    00000002                            : memory.obj (.data)
+
+.bss       0    00001d88    000000b2     UNINITIALIZED
+                  00001d88    000000a0     (.common:__TI_tmpnams)
+                  00001e28    00000008     (.common:parmbuf)
+                  00001e30    00000004     (.common:sys_base)
+                  00001e34    00000004     (.common:sys_free)
+                  00001e38    00000002     (.common:memsize)
 
 .stack     0    00001fc0    00000040     UNINITIALIZED
                   00001fc0    00000004     boot.ae430X : boot.oe430X (.stack)
@@ -94,71 +107,132 @@ section   page    origin      length       input sections
 .TI.persistent 
 *          0    0000c200    00000000     UNINITIALIZED
 
-.cio       0    0000c200    00000000     UNINITIALIZED
+.cio       0    0000c200    00000120     UNINITIALIZED
+                  0000c200    00000120     rts430x_lc_rd_eabi.lib : trgmsg.obj (.cio)
 
-.sysmem    0    0000c200    00000000     UNINITIALIZED
+.sysmem    0    0000c320    00000006     UNINITIALIZED
+                  0000c320    00000006     rts430x_lc_rd_eabi.lib : memory.obj (.sysmem)
 
-.cinit     0    0000c200    00000012     
-                  0000c200    00000006     (.cinit..bss.load) [load image, compression = zero_init]
-                  0000c206    00000004     (__TI_handler_table)
-                  0000c20a    00000008     (__TI_cinit_table)
+.cinit     0    0000c400    000001c0     
+                  0000c400    0000018e     (.cinit..data.load) [load image]
+                  0000c590    0000000c     (__TI_handler_table)
+                  0000c59c    00000006     (.cinit..bss.load) [load image, compression = zero_init]
+                  0000c5a2    00000006     (.cinit..cio.load) [load image, compression = zero_init]
+                  0000c5a8    00000018     (__TI_cinit_table)
 
-.pinit     0    0000c212    00000000     UNINITIALIZED
+.pinit     0    0000c5c0    00000000     UNINITIALIZED
 
 .init_array 
-*          0    0000c212    00000000     UNINITIALIZED
+*          0    0000c5c0    00000000     UNINITIALIZED
 
 .mspabi.exidx 
-*          0    0000c212    00000000     UNINITIALIZED
+*          0    0000c5c0    00000000     UNINITIALIZED
 
 .mspabi.extab 
-*          0    0000c212    00000000     UNINITIALIZED
+*          0    0000c5c0    00000000     UNINITIALIZED
 
-.const     0    0000c212    0000000c     
-                  0000c212    0000000c     grace.lib : EUSCI_B0_init.obj (.const)
+.const     0    0000c5c0    0000008e     
+                  0000c5c0    00000064     SHT2x.obj (.const:.string)
+                  0000c624    0000001c     grace.lib : gpio.obj (.const:GPIO_PORT_TO_BASE)
+                  0000c640    0000000c               : EUSCI_B0_init.obj (.const)
+                  0000c64c    00000002     SHT2x.obj (.const)
 
-.text      0    0000c400    0000066e     
-                  0000c400    000000f8     grace.lib : EUSCI_B0_init.obj (.text:EUSCI_B0_graceInit)
-                  0000c4f8    00000076               : PinMux_init.obj (.text:PinMux_graceInit)
-                  0000c56e    00000070     boot.ae430X : autoinit_wdt.oe430X (.text:_auto_init_hold_wdt)
-                  0000c5de    00000066     grace.lib : cs.obj (.text:CS_initClockSignal)
-                  0000c644    00000060               : eusci_b_i2c.obj (.text:EUSCI_B_I2C_initMaster)
-                  0000c6a4    0000005c               : eusci_b_i2c.obj (.text:EUSCI_B_I2C_masterSendSingleByte)
-                  0000c700    00000058     rts430x_lc_rd_eabi.lib : div32u.obj (.text)
-                  0000c758    00000054     sht25.obj (.text:AddSht25Temperature)
-                  0000c7ac    00000044     sht25.obj (.text:AddSht25RelativeHumidity)
-                  0000c7f0    00000044     sht25.obj (.text:AddSht25Values)
-                  0000c834    0000003e     sht25.obj (.text:AddSht25Measure)
-                  0000c872    00000038     grace.lib : CS_init.obj (.text:CS_graceInit)
-                  0000c8aa    0000002e               : cs.obj (.text:CS_clearAllOscFlagsWithTimeout)
-                  0000c8d8    00000026     boot.ae430X : boot_special.oe430X (.text:_isr:_c_int00_noargs_noexit)
-                  0000c8fe    00000024     rts430x_lc_rd_eabi.lib : copy_zero_init.obj (.text:decompress:ZI:__TI_zero_init)
-                  0000c922    00000022     grace.lib : Grace_init.obj (.text:Grace_init)
-                  0000c944    00000020               : wdt_a.obj (.text:WDT_A_hold)
-                  0000c964    0000001a     sht25.obj (.text:TriggerMeasureRHHoldMasterSHT25)
-                  0000c97e    0000001a     sht25.obj (.text:TriggerMeasureTHoldMasterSHT25)
-                  0000c998    00000014     rts430x_lc_rd_eabi.lib : memcpy.obj (.text:memcpy)
-                  0000c9ac    00000012     grace.lib : cs.obj (.text:CS_setDCOFreq)
-                  0000c9be    00000010     main.obj (.text:main)
-                  0000c9ce    0000000e     grace.lib : eusci_b_i2c.obj (.text:EUSCI_B_I2C_setMode)
-                  0000c9dc    0000000c               : eusci_b_i2c.obj (.text:EUSCI_B_I2C_disableInterrupt)
-                  0000c9e8    0000000c               : eusci_b_i2c.obj (.text:EUSCI_B_I2C_isBusBusy)
-                  0000c9f4    0000000c               : eusci_b_i2c.obj (.text:EUSCI_B_I2C_masterReceiveStart)
-                  0000ca00    0000000c               : eusci_b_i2c.obj (.text:EUSCI_B_I2C_setSlaveAddress)
-                  0000ca0c    0000000a     main_pe430X.oe430X (.text:.bootCodeSection:ti_catalog_msp430_init_Boot_init)
-                  0000ca16    0000000a     sht25.obj (.text:CalculateTemperature)
-                  0000ca20    0000000a     grace.lib : eusci_b_i2c.obj (.text:EUSCI_B_I2C_masterReceiveMultiByteNext)
-                  0000ca2a    0000000a               : WDT_A_init.obj (.text:WDT_A_graceInit)
-                  0000ca34    00000008     ti.catalog.msp430.init.ae430X : Boot.oe430X (.text:.bootCodeSection:ti_catalog_msp430_init_Boot_disableWatchdog)
-                  0000ca3c    00000008     sht25.obj (.text:CalculateRelativeHumidity)
-                  0000ca44    00000008     grace.lib : System_init.obj (.text:System_graceInit)
-                  0000ca4c    00000006               : eusci_b_i2c.obj (.text:EUSCI_B_I2C_disable)
-                  0000ca52    00000006               : eusci_b_i2c.obj (.text:EUSCI_B_I2C_enable)
-                  0000ca58    00000006               : eusci_b_i2c.obj (.text:EUSCI_B_I2C_masterReceiveMultiByteStop)
-                  0000ca5e    00000006     rts430x_lc_rd_eabi.lib : isr_trap.obj (.text:_isr:__TI_ISR_TRAP)
-                  0000ca64    00000004     boot.ae430X : pre_init.oe430X (.text:_system_pre_init)
-                  0000ca68    00000004     rts430x_lc_rd_eabi.lib : exit.obj (.text:abort)
-                  0000ca6c    00000002     grace.lib : InterruptVectors_init.obj (.text:InterruptVectors_graceInit)
+.text      0    0000c800    0000226e     
+                  0000c800    000002e4     rts430x_lc_rd_eabi.lib : frcmpyd.obj (.text:__TI_frcmpyd)
+                  0000cae4    000002d8                            : addd.obj (.text:__mspabi_addd)
+                  0000cdbc    00000282                            : mpyd.obj (.text:__mspabi_mpyd)
+                  0000d03e    00000252                            : frcaddd.obj (.text:__TI_frcaddd)
+                  0000d290    000000f8     grace.lib : EUSCI_B0_init.obj (.text:EUSCI_B0_graceInit)
+                  0000d388    000000f0     rts430x_lc_rd_eabi.lib : fputs.obj (.text:fputs)
+                  0000d478    000000e0                            : setvbuf.obj (.text:setvbuf)
+                  0000d558    000000c2     I2C_HAL.obj (.text:I2c_ReadByte)
+                  0000d61a    000000ba     rts430x_lc_rd_eabi.lib : memory.obj (.text:malloc)
+                  0000d6d4    000000b2     I2C_HAL.obj (.text:I2c_WriteByte)
+                  0000d786    000000b2     rts430x_lc_rd_eabi.lib : renormd.obj (.text:__TI_renormd)
+                  0000d838    000000aa     SHT2x.obj (.text:SHT2x_MeasurePoll)
+                  0000d8e2    0000009e     rts430x_lc_rd_eabi.lib : trgdrv.obj (.text:HOSTlseek)
+                  0000d980    0000008e                            : memory.obj (.text:free)
+                  0000da0e    0000008c                            : cvtdf.obj (.text:__mspabi_cvtdf)
+                  0000da9a    0000007e                            : _io_perm.obj (.text:__TI_wrt_ok)
+                  0000db18    00000078     grace.lib : PinMux_init.obj (.text:PinMux_graceInit)
+                  0000db90    00000074     rts430x_lc_rd_eabi.lib : trgdrv.obj (.text:HOSTrename)
+                  0000dc04    00000070                            : fclose.obj (.text:__TI_closefile)
+                  0000dc74    00000070     boot.ae430X : autoinit_wdt.oe430X (.text:_auto_init_hold_wdt)
+                  0000dce4    0000006e     rts430x_lc_rd_eabi.lib : trgdrv.obj (.text:HOSTopen)
+                  0000dd52    0000006a                            : trgdrv.obj (.text:HOSTwrite)
+                  0000ddbc    0000006a                            : fseek.obj (.text:fseek)
+                  0000de26    00000068                            : trgdrv.obj (.text:HOSTread)
+                  0000de8e    00000068                            : copy_decompress_rle.obj (.text:__TI_decompress_rle_core)
+                  0000def6    00000066     grace.lib : cs.obj (.text:CS_initClockSignal)
+                  0000df5c    00000064     rts430x_lc_rd_eabi.lib : fflush.obj (.text:__TI_doflush)
+                  0000dfc0    00000064                            : cvtfd.obj (.text:__mspabi_cvtfd)
+                  0000e024    00000060     grace.lib : eusci_b_i2c.obj (.text:EUSCI_B_I2C_initMaster)
+                  0000e084    0000005a     rts430x_lc_rd_eabi.lib : lowlev.obj (.text:close)
+                  0000e0de    0000005a                            : lowlev.obj (.text:getdevice)
+                  0000e138    00000058                            : fflush.obj (.text:fflush)
+                  0000e190    00000058                            : div32u.obj (.text)
+                  0000e1e8    0000004e     SHT2x.obj (.text:SHT2x_CalcTemperatureC)
+                  0000e236    0000004c     rts430x_lc_rd_eabi.lib : trgdrv.obj (.text:HOSTclose)
+                  0000e282    00000046                            : trgdrv.obj (.text:HOSTunlink)
+                  0000e2c8    00000044     SHT2x.obj (.text:SHT2x_CalcRH)
+                  0000e30c    00000042     rts430x_lc_rd_eabi.lib : memory.obj (.text:minit)
+                  0000e34e    00000040     grace.lib : gpio.obj (.text:GPIO_setAsInputPin)
+                  0000e38e    0000003e     I2C_HAL.obj (.text:I2c_Init)
+                  0000e3cc    0000003e     I2C_HAL.obj (.text:I2c_StartCondition)
+                  0000e40a    0000003e     I2C_HAL.obj (.text:I2c_StopCondition)
+                  0000e448    0000003e     SHT2x.obj (.text:SHT2x_CheckCrc)
+                  0000e486    0000003e     rts430x_lc_rd_eabi.lib : asr32.obj (.text:l_asr_const)
+                  0000e4c4    0000003e                            : lsl32.obj (.text:l_lsl_const)
+                  0000e502    0000003e                            : lsr32.obj (.text:l_lsr_const)
+                  0000e540    0000003e                            : lowlev.obj (.text:lseek)
+                  0000e57e    0000003c                            : lowlev.obj (.text:write)
+                  0000e5ba    0000003a     main.obj (.text:main)
+                  0000e5f4    00000038     grace.lib : CS_init.obj (.text:CS_graceInit)
+                  0000e62c    00000036     rts430x_lc_rd_eabi.lib : fopen.obj (.text:__TI_cleanup)
+                  0000e662    00000036                            : trgmsg.obj (.text:__TI_writemsg)
+                  0000e698    00000034     grace.lib : gpio.obj (.text:GPIO_setAsOutputPin)
+                  0000e6cc    00000032     rts430x_lc_rd_eabi.lib : trgmsg.obj (.text:__TI_readmsg)
+                  0000e6fe    00000032                            : strncpy.obj (.text:strncpy)
+                  0000e730    00000030                            : lowlev.obj (.text:unlink)
+                  0000e760    0000002e     grace.lib : cs.obj (.text:CS_clearAllOscFlagsWithTimeout)
+                  0000e78e    0000002e     rts430x_lc_rd_eabi.lib : lowlev.obj (.text:finddevice)
+                  0000e7bc    00000026     boot.ae430X : boot_special.oe430X (.text:_isr:_c_int00_noargs_noexit)
+                  0000e7e2    00000024     rts430x_lc_rd_eabi.lib : copy_zero_init.obj (.text:decompress:ZI:__TI_zero_init)
+                  0000e806    00000024                            : fs_utof.obj (.text)
+                  0000e82a    00000022     grace.lib : Grace_init.obj (.text:Grace_init)
+                  0000e84c    00000022     rts430x_lc_rd_eabi.lib : mult32_f5hw.obj (.text)
+                  0000e86e    00000020     grace.lib : wdt_a.obj (.text:WDT_A_hold)
+                  0000e88e    0000001e     System.obj (.text:DelayMicroSeconds)
+                  0000e8ac    0000001c     grace.lib : gpio.obj (.text:GPIO_getInputPinValue)
+                  0000e8c8    0000001c               : gpio.obj (.text:GPIO_setOutputHighOnPin)
+                  0000e8e4    0000001c               : gpio.obj (.text:GPIO_setOutputLowOnPin)
+                  0000e900    0000001c     rts430x_lc_rd_eabi.lib : strchr.obj (.text:strchr)
+                  0000e91c    0000001c                            : strcmp.obj (.text:strcmp)
+                  0000e938    0000001a                            : assert.obj (.text:_abort_msg)
+                  0000e952    00000016                            : memchr.obj (.text:memchr)
+                  0000e968    00000016                            : mult16_f5hw.obj (.text)
+                  0000e97e    00000014                            : memcpy.obj (.text:memcpy)
+                  0000e992    00000012     grace.lib : cs.obj (.text:CS_setDCOFreq)
+                  0000e9a4    00000012     rts430x_lc_rd_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
+                  0000e9b6    00000012                            : strcpy.obj (.text:strcpy)
+                  0000e9c8    00000010                            : asr32.obj (.text:l_asr)
+                  0000e9d8    00000010                            : lsl32.obj (.text:l_lsl)
+                  0000e9e8    00000010                            : lsr32.obj (.text:l_lsr)
+                  0000e9f8    0000000e     grace.lib : eusci_b_i2c.obj (.text:EUSCI_B_I2C_setMode)
+                  0000ea06    0000000e     rts430x_lc_rd_eabi.lib : strlen.obj (.text:strlen)
+                  0000ea14    0000000c     grace.lib : eusci_b_i2c.obj (.text:EUSCI_B_I2C_disableInterrupt)
+                  0000ea20    0000000c               : eusci_b_i2c.obj (.text:EUSCI_B_I2C_setSlaveAddress)
+                  0000ea2c    0000000a     main_pe430X.oe430X (.text:.bootCodeSection:ti_catalog_msp430_init_Boot_init)
+                  0000ea36    0000000a     grace.lib : WDT_A_init.obj (.text:WDT_A_graceInit)
+                  0000ea40    00000008     ti.catalog.msp430.init.ae430X : Boot.oe430X (.text:.bootCodeSection:ti_catalog_msp430_init_Boot_disableWatchdog)
+                  0000ea48    00000008     grace.lib : System_init.obj (.text:System_graceInit)
+                  0000ea50    00000006               : eusci_b_i2c.obj (.text:EUSCI_B_I2C_enable)
+                  0000ea56    00000006     rts430x_lc_rd_eabi.lib : isr_trap.obj (.text:_isr:__TI_ISR_TRAP)
+                  0000ea5c    00000006                            : copy_decompress_rle.obj (.text:decompress:rle24:__TI_decompress_rle24)
+                  0000ea62    00000004     boot.ae430X : pre_init.oe430X (.text:_system_pre_init)
+                  0000ea66    00000004     rts430x_lc_rd_eabi.lib : exit.obj (.text:abort)
+                  0000ea6a    00000002     grace.lib : InterruptVectors_init.obj (.text:InterruptVectors_graceInit)
+                  0000ea6c    00000002     rts430x_lc_rd_eabi.lib : _lock.obj (.text:_nop)
 
 $fill000   0    0000ff80    00000004     
                   0000ff80    00000004     --HOLE-- [fill = ffff]
@@ -260,14 +334,18 @@ xdc.meta   0    00000000    000000ea     COPY SECTION
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0000c20a records: 1, size/record: 8, table size: 8
-	.bss: load addr=0000c200, load size=00000006 bytes, run addr=00001c00, run size=00000008 bytes, compression=zero_init
+__TI_cinit_table @ 0000c5a8 records: 3, size/record: 8, table size: 24
+	.data: load addr=0000c400, load size=0000018e bytes, run addr=00001c00, run size=00000188 bytes, compression=copy
+	.bss: load addr=0000c59c, load size=00000006 bytes, run addr=00001d88, run size=000000b2 bytes, compression=zero_init
+	.cio: load addr=0000c5a2, load size=00000006 bytes, run addr=0000c200, run size=00000120 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0000c206 records: 1, size/record: 4, table size: 4
+__TI_handler_table @ 0000c590 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_zero_init
+	index: 1, handler: __TI_decompress_rle24
+	index: 2, handler: __TI_decompress_none
 
 
 GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
@@ -304,10 +382,10 @@ address   name
 00000712  ADC10MEM0                                  
 00000713  ADC10MEM0_H                                
 00000712  ADC10MEM0_L                                
-0000c834  AddSht25Measure                            
 000004be  BCD2BIN                                    
 000004bc  BIN2BCD                                    
-0000ca68  C$$EXIT                                    
+0000ea66  C$$EXIT                                    
+0000e694  C$$IO$$                                    
 000008c0  CDCTL0                                     
 000008c1  CDCTL0_H                                   
 000008c0  CDCTL0_L                                   
@@ -359,10 +437,10 @@ address   name
 0000016c  CSCTL6                                     
 0000016d  CSCTL6_H                                   
 0000016c  CSCTL6_L                                   
-0000c8aa  CS_clearAllOscFlagsWithTimeout             
-0000c872  CS_graceInit                               
-0000c5de  CS_initClockSignal                         
-0000c9ac  CS_setDCOFreq                              
+0000e760  CS_clearAllOscFlagsWithTimeout             
+0000e5f4  CS_graceInit                               
+0000def6  CS_initClockSignal                         
+0000e992  CS_setDCOFreq                              
 00000510  DMA0CTL                                    
 00000511  DMA0CTL_H                                  
 00000510  DMA0CTL_L                                  
@@ -411,18 +489,13 @@ address   name
 0000050e  DMAIV                                      
 0000050f  DMAIV_H                                    
 0000050e  DMAIV_L                                    
-0000c400  EUSCI_B0_graceInit                         
-0000ca4c  EUSCI_B_I2C_disable                        
-0000c9dc  EUSCI_B_I2C_disableInterrupt               
-0000ca52  EUSCI_B_I2C_enable                         
-0000c644  EUSCI_B_I2C_initMaster                     
-0000c9e8  EUSCI_B_I2C_isBusBusy                      
-0000ca20  EUSCI_B_I2C_masterReceiveMultiByteNext     
-0000ca58  EUSCI_B_I2C_masterReceiveMultiByteStop     
-0000c9f4  EUSCI_B_I2C_masterReceiveStart             
-0000c6a4  EUSCI_B_I2C_masterSendSingleByte           
-0000c9ce  EUSCI_B_I2C_setMode                        
-0000ca00  EUSCI_B_I2C_setSlaveAddress                
+0000e88e  DelayMicroSeconds                          
+0000d290  EUSCI_B0_graceInit                         
+0000ea14  EUSCI_B_I2C_disableInterrupt               
+0000ea50  EUSCI_B_I2C_enable                         
+0000e024  EUSCI_B_I2C_initMaster                     
+0000e9f8  EUSCI_B_I2C_setMode                        
+0000ea20  EUSCI_B_I2C_setSlaveAddress                
 00000140  FRCTL0                                     
 00000141  FRCTL0_H                                   
 00000140  FRCTL0_L                                   
@@ -432,8 +505,25 @@ address   name
 00000146  GCCTL1                                     
 00000147  GCCTL1_H                                   
 00000146  GCCTL1_L                                   
-0000c922  Grace_init                                 
-0000ca6c  InterruptVectors_graceInit                 
+0000e8ac  GPIO_getInputPinValue                      
+0000e34e  GPIO_setAsInputPin                         
+0000e698  GPIO_setAsOutputPin                        
+0000e8c8  GPIO_setOutputHighOnPin                    
+0000e8e4  GPIO_setOutputLowOnPin                     
+0000e82a  Grace_init                                 
+0000e236  HOSTclose                                  
+0000d8e2  HOSTlseek                                  
+0000dce4  HOSTopen                                   
+0000de26  HOSTread                                   
+0000db90  HOSTrename                                 
+0000e282  HOSTunlink                                 
+0000dd52  HOSTwrite                                  
+0000e38e  I2c_Init                                   
+0000d558  I2c_ReadByte                               
+0000e3cc  I2c_StartCondition                         
+0000e40a  I2c_StopCondition                          
+0000d6d4  I2c_WriteByte                              
+0000ea6a  InterruptVectors_graceInit                 
 000004c4  MAC                                        
 000004da  MAC32H                                     
 000004db  MAC32H_H                                   
@@ -588,7 +678,8 @@ address   name
 0000012a  PMMIFG                                     
 0000012b  PMMIFG_H                                   
 0000012a  PMMIFG_L                                   
-0000c4f8  PinMux_graceInit                           
+0000c64c  POLYNOMIAL                                 
+0000db18  PinMux_graceInit                           
 000001b0  REFCTL0                                    
 000001b1  REFCTL0_H                                  
 000001b0  REFCTL0_L                                  
@@ -653,6 +744,10 @@ address   name
 00000104  SFRRPCR                                    
 00000105  SFRRPCR_H                                  
 00000104  SFRRPCR_L                                  
+0000e2c8  SHT2x_CalcRH                               
+0000e1e8  SHT2x_CalcTemperatureC                     
+0000e448  SHT2x_CheckCrc                             
+0000d838  SHT2x_MeasurePoll                          
 000004ce  SUMEXT                                     
 000004cf  SUMEXT_H                                   
 000004ce  SUMEXT_L                                   
@@ -689,7 +784,7 @@ address   name
 0000019a  SYSUNIV                                    
 0000019b  SYSUNIV_H                                  
 0000019a  SYSUNIV_L                                  
-0000ca44  System_graceInit                           
+0000ea48  System_graceInit                           
 00000352  TA0CCR0                                    
 00000354  TA0CCR1                                    
 00000356  TA0CCR2                                    
@@ -852,21 +947,32 @@ address   name
 0000015c  WDTCTL                                     
 0000015d  WDTCTL_H                                   
 0000015c  WDTCTL_L                                   
-0000ca2a  WDT_A_graceInit                            
-0000c944  WDT_A_hold                                 
+0000ea36  WDT_A_graceInit                            
+0000e86e  WDT_A_hold                                 
+0000c200  _CIOBUF_                                   
 00000000  __ASM__                                    
 0000005c  __ISA__                                    
 00000070  __PLAT__                                   
 00002000  __STACK_END                                
 00000040  __STACK_SIZE                               
+00000006  __SYSMEM_SIZE                              
 00000094  __TARG__                                   
-0000c20a  __TI_CINIT_Base                            
-0000c212  __TI_CINIT_Limit                           
-0000c206  __TI_Handler_Table_Base                    
-0000c20a  __TI_Handler_Table_Limit                   
+0000c5a8  __TI_CINIT_Base                            
+0000c5c0  __TI_CINIT_Limit                           
+0000c590  __TI_Handler_Table_Base                    
+0000c59c  __TI_Handler_Table_Limit                   
 UNDEFED   __TI_INITARRAY_Base                        
 UNDEFED   __TI_INITARRAY_Limit                       
-0000ca5e  __TI_ISR_TRAP                              
+0000ea56  __TI_ISR_TRAP                              
+0000e62c  __TI_cleanup                               
+UNDEFED   __TI_cleanup_ptr                           
+0000dc04  __TI_closefile                             
+0000e9a4  __TI_decompress_none                       
+0000ea5c  __TI_decompress_rle24                      
+0000df5c  __TI_doflush                               
+0000d03e  __TI_frcaddd                               
+0000c800  __TI_frcmpyd                               
+00001d84  __TI_ft_end                                
 0000ffce  __TI_int31                                 
 0000ffd0  __TI_int32                                 
 0000ffd2  __TI_int33                                 
@@ -891,31 +997,114 @@ UNDEFED   __TI_INITARRAY_Limit
 0000fff8  __TI_int52                                 
 0000fffa  __TI_int53                                 
 0000fffc  __TI_int54                                 
-0000c8fe  __TI_zero_init                             
+0000e6cc  __TI_readmsg                               
+0000d786  __TI_renormd                               
+00001d88  __TI_tmpnams                               
+0000e662  __TI_writemsg                              
+0000da9a  __TI_wrt_ok                                
+0000e7e2  __TI_zero_init                             
 000000c2  __TRDR__                                   
 ffffffff  __binit__                                  
 ffffffff  __c_args__                                 
-0000c700  __mspabi_divul                             
-0000c700  __mspabi_remul                             
-0000c56e  _auto_init_hold_wdt                        
-0000c8d8  _c_int00_noargs_noexit                     
+0000cae4  __mspabi_addd                              
+0000da0e  __mspabi_cvtdf                             
+0000dfc0  __mspabi_cvtfd                             
+0000e190  __mspabi_divul                             
+0000e806  __mspabi_fltuf                             
+0000cdbc  __mspabi_mpyd                              
+0000e968  __mspabi_mpyi_f5hw                         
+0000e84c  __mspabi_mpyl_f5hw                         
+0000e190  __mspabi_remul                             
+0000e9d8  __mspabi_slll                              
+0000e4fc  __mspabi_slll_1                            
+0000e4d8  __mspabi_slll_10                           
+0000e4d4  __mspabi_slll_11                           
+0000e4d0  __mspabi_slll_12                           
+0000e4cc  __mspabi_slll_13                           
+0000e4c8  __mspabi_slll_14                           
+0000e4c4  __mspabi_slll_15                           
+0000e4f8  __mspabi_slll_2                            
+0000e4f4  __mspabi_slll_3                            
+0000e4f0  __mspabi_slll_4                            
+0000e4ec  __mspabi_slll_5                            
+0000e4e8  __mspabi_slll_6                            
+0000e4e4  __mspabi_slll_7                            
+0000e4e0  __mspabi_slll_8                            
+0000e4dc  __mspabi_slll_9                            
+0000e9c8  __mspabi_sral                              
+0000e4be  __mspabi_sral_1                            
+0000e49a  __mspabi_sral_10                           
+0000e496  __mspabi_sral_11                           
+0000e492  __mspabi_sral_12                           
+0000e48e  __mspabi_sral_13                           
+0000e48a  __mspabi_sral_14                           
+0000e486  __mspabi_sral_15                           
+0000e4ba  __mspabi_sral_2                            
+0000e4b6  __mspabi_sral_3                            
+0000e4b2  __mspabi_sral_4                            
+0000e4ae  __mspabi_sral_5                            
+0000e4aa  __mspabi_sral_6                            
+0000e4a6  __mspabi_sral_7                            
+0000e4a2  __mspabi_sral_8                            
+0000e49e  __mspabi_sral_9                            
+0000e9e8  __mspabi_srll                              
+0000e53a  __mspabi_srll_1                            
+0000e516  __mspabi_srll_10                           
+0000e512  __mspabi_srll_11                           
+0000e50e  __mspabi_srll_12                           
+0000e50a  __mspabi_srll_13                           
+0000e506  __mspabi_srll_14                           
+0000e502  __mspabi_srll_15                           
+0000e536  __mspabi_srll_2                            
+0000e532  __mspabi_srll_3                            
+0000e52e  __mspabi_srll_4                            
+0000e52a  __mspabi_srll_5                            
+0000e526  __mspabi_srll_6                            
+0000e522  __mspabi_srll_7                            
+0000e51e  __mspabi_srll_8                            
+0000e51a  __mspabi_srll_9                            
+0000e938  _abort_msg                                 
+0000dc74  _auto_init_hold_wdt                        
+0000e7bc  _c_int00_noargs_noexit                     
+00001c00  _ftable                                    
+00001d7c  _lock                                      
+0000ea6c  _nop                                       
 0000fffe  _reset_vector                              
 00001fc0  _stack                                     
-0000ca64  _system_pre_init                           
-0000ca68  abort                                      
+0000c320  _sys_memory                                
+0000ea62  _system_pre_init                           
+00001d80  _unlock                                    
+0000ea66  abort                                      
 ffffffff  binit                                      
-0000c200  fram_ro_start                              
+0000e084  close                                      
+0000e138  fflush                                     
+0000d388  fputs                                      
+0000c400  fram_ro_start                              
 0000c200  fram_rw_start                              
-0000c400  fram_rx_start                              
-0000c9be  main                                       
-00001c00  measures                                   
-0000c998  memcpy                                     
-0000ca34  ti_catalog_msp430_init_Boot_disableWatchdog
-0000ca0c  ti_catalog_msp430_init_Boot_init           
+0000c800  fram_rx_start                              
+0000d980  free                                       
+0000ddbc  fseek                                      
+0000e540  lseek                                      
+0000e5ba  main                                       
+0000d61a  malloc                                     
+0000e952  memchr                                     
+0000e97e  memcpy                                     
+0000e30c  minit                                      
+0000e730  remove                                     
+0000d478  setvbuf                                    
+0000e900  strchr                                     
+0000e91c  strcmp                                     
+0000e9b6  strcpy                                     
+0000ea06  strlen                                     
+0000e6fe  strncpy                                    
+0000ea40  ti_catalog_msp430_init_Boot_disableWatchdog
+0000ea2c  ti_catalog_msp430_init_Boot_init           
+0000e730  unlink                                     
+0000e57e  write                                      
 00000000  xdc_runtime_Startup__EXECFXN__C            
 00000001  xdc_runtime_Startup__RESETFXN__C           
 00000000  xdc_runtime_Startup_exec__E                
-0000ca0c  xdc_runtime_Startup_reset__I               
+0000ea2c  xdc_runtime_Startup_reset__I               
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -926,6 +1115,7 @@ address   name
 00000000  xdc_runtime_Startup__EXECFXN__C            
 00000000  xdc_runtime_Startup_exec__E                
 00000001  xdc_runtime_Startup__RESETFXN__C           
+00000006  __SYSMEM_SIZE                              
 00000040  __STACK_SIZE                               
 0000005c  __ISA__                                    
 00000070  __PLAT__                                   
@@ -1487,53 +1677,162 @@ address   name
 000008ce  CDIV                                       
 000008ce  CDIV_L                                     
 000008cf  CDIV_H                                     
-00001c00  measures                                   
+00001c00  _ftable                                    
+00001d7c  _lock                                      
+00001d80  _unlock                                    
+00001d84  __TI_ft_end                                
+00001d88  __TI_tmpnams                               
 00001fc0  _stack                                     
 00002000  __STACK_END                                
-0000c200  fram_ro_start                              
+0000c200  _CIOBUF_                                   
 0000c200  fram_rw_start                              
-0000c206  __TI_Handler_Table_Base                    
-0000c20a  __TI_CINIT_Base                            
-0000c20a  __TI_Handler_Table_Limit                   
-0000c212  __TI_CINIT_Limit                           
-0000c400  EUSCI_B0_graceInit                         
-0000c400  fram_rx_start                              
-0000c4f8  PinMux_graceInit                           
-0000c56e  _auto_init_hold_wdt                        
-0000c5de  CS_initClockSignal                         
-0000c644  EUSCI_B_I2C_initMaster                     
-0000c6a4  EUSCI_B_I2C_masterSendSingleByte           
-0000c700  __mspabi_divul                             
-0000c700  __mspabi_remul                             
-0000c834  AddSht25Measure                            
-0000c872  CS_graceInit                               
-0000c8aa  CS_clearAllOscFlagsWithTimeout             
-0000c8d8  _c_int00_noargs_noexit                     
-0000c8fe  __TI_zero_init                             
-0000c922  Grace_init                                 
-0000c944  WDT_A_hold                                 
-0000c998  memcpy                                     
-0000c9ac  CS_setDCOFreq                              
-0000c9be  main                                       
-0000c9ce  EUSCI_B_I2C_setMode                        
-0000c9dc  EUSCI_B_I2C_disableInterrupt               
-0000c9e8  EUSCI_B_I2C_isBusBusy                      
-0000c9f4  EUSCI_B_I2C_masterReceiveStart             
-0000ca00  EUSCI_B_I2C_setSlaveAddress                
-0000ca0c  ti_catalog_msp430_init_Boot_init           
-0000ca0c  xdc_runtime_Startup_reset__I               
-0000ca20  EUSCI_B_I2C_masterReceiveMultiByteNext     
-0000ca2a  WDT_A_graceInit                            
-0000ca34  ti_catalog_msp430_init_Boot_disableWatchdog
-0000ca44  System_graceInit                           
-0000ca4c  EUSCI_B_I2C_disable                        
-0000ca52  EUSCI_B_I2C_enable                         
-0000ca58  EUSCI_B_I2C_masterReceiveMultiByteStop     
-0000ca5e  __TI_ISR_TRAP                              
-0000ca64  _system_pre_init                           
-0000ca68  C$$EXIT                                    
-0000ca68  abort                                      
-0000ca6c  InterruptVectors_graceInit                 
+0000c320  _sys_memory                                
+0000c400  fram_ro_start                              
+0000c590  __TI_Handler_Table_Base                    
+0000c59c  __TI_Handler_Table_Limit                   
+0000c5a8  __TI_CINIT_Base                            
+0000c5c0  __TI_CINIT_Limit                           
+0000c64c  POLYNOMIAL                                 
+0000c800  __TI_frcmpyd                               
+0000c800  fram_rx_start                              
+0000cae4  __mspabi_addd                              
+0000cdbc  __mspabi_mpyd                              
+0000d03e  __TI_frcaddd                               
+0000d290  EUSCI_B0_graceInit                         
+0000d388  fputs                                      
+0000d478  setvbuf                                    
+0000d558  I2c_ReadByte                               
+0000d61a  malloc                                     
+0000d6d4  I2c_WriteByte                              
+0000d786  __TI_renormd                               
+0000d838  SHT2x_MeasurePoll                          
+0000d8e2  HOSTlseek                                  
+0000d980  free                                       
+0000da0e  __mspabi_cvtdf                             
+0000da9a  __TI_wrt_ok                                
+0000db18  PinMux_graceInit                           
+0000db90  HOSTrename                                 
+0000dc04  __TI_closefile                             
+0000dc74  _auto_init_hold_wdt                        
+0000dce4  HOSTopen                                   
+0000dd52  HOSTwrite                                  
+0000ddbc  fseek                                      
+0000de26  HOSTread                                   
+0000def6  CS_initClockSignal                         
+0000df5c  __TI_doflush                               
+0000dfc0  __mspabi_cvtfd                             
+0000e024  EUSCI_B_I2C_initMaster                     
+0000e084  close                                      
+0000e138  fflush                                     
+0000e190  __mspabi_divul                             
+0000e190  __mspabi_remul                             
+0000e1e8  SHT2x_CalcTemperatureC                     
+0000e236  HOSTclose                                  
+0000e282  HOSTunlink                                 
+0000e2c8  SHT2x_CalcRH                               
+0000e30c  minit                                      
+0000e34e  GPIO_setAsInputPin                         
+0000e38e  I2c_Init                                   
+0000e3cc  I2c_StartCondition                         
+0000e40a  I2c_StopCondition                          
+0000e448  SHT2x_CheckCrc                             
+0000e486  __mspabi_sral_15                           
+0000e48a  __mspabi_sral_14                           
+0000e48e  __mspabi_sral_13                           
+0000e492  __mspabi_sral_12                           
+0000e496  __mspabi_sral_11                           
+0000e49a  __mspabi_sral_10                           
+0000e49e  __mspabi_sral_9                            
+0000e4a2  __mspabi_sral_8                            
+0000e4a6  __mspabi_sral_7                            
+0000e4aa  __mspabi_sral_6                            
+0000e4ae  __mspabi_sral_5                            
+0000e4b2  __mspabi_sral_4                            
+0000e4b6  __mspabi_sral_3                            
+0000e4ba  __mspabi_sral_2                            
+0000e4be  __mspabi_sral_1                            
+0000e4c4  __mspabi_slll_15                           
+0000e4c8  __mspabi_slll_14                           
+0000e4cc  __mspabi_slll_13                           
+0000e4d0  __mspabi_slll_12                           
+0000e4d4  __mspabi_slll_11                           
+0000e4d8  __mspabi_slll_10                           
+0000e4dc  __mspabi_slll_9                            
+0000e4e0  __mspabi_slll_8                            
+0000e4e4  __mspabi_slll_7                            
+0000e4e8  __mspabi_slll_6                            
+0000e4ec  __mspabi_slll_5                            
+0000e4f0  __mspabi_slll_4                            
+0000e4f4  __mspabi_slll_3                            
+0000e4f8  __mspabi_slll_2                            
+0000e4fc  __mspabi_slll_1                            
+0000e502  __mspabi_srll_15                           
+0000e506  __mspabi_srll_14                           
+0000e50a  __mspabi_srll_13                           
+0000e50e  __mspabi_srll_12                           
+0000e512  __mspabi_srll_11                           
+0000e516  __mspabi_srll_10                           
+0000e51a  __mspabi_srll_9                            
+0000e51e  __mspabi_srll_8                            
+0000e522  __mspabi_srll_7                            
+0000e526  __mspabi_srll_6                            
+0000e52a  __mspabi_srll_5                            
+0000e52e  __mspabi_srll_4                            
+0000e532  __mspabi_srll_3                            
+0000e536  __mspabi_srll_2                            
+0000e53a  __mspabi_srll_1                            
+0000e540  lseek                                      
+0000e57e  write                                      
+0000e5ba  main                                       
+0000e5f4  CS_graceInit                               
+0000e62c  __TI_cleanup                               
+0000e662  __TI_writemsg                              
+0000e694  C$$IO$$                                    
+0000e698  GPIO_setAsOutputPin                        
+0000e6cc  __TI_readmsg                               
+0000e6fe  strncpy                                    
+0000e730  remove                                     
+0000e730  unlink                                     
+0000e760  CS_clearAllOscFlagsWithTimeout             
+0000e7bc  _c_int00_noargs_noexit                     
+0000e7e2  __TI_zero_init                             
+0000e806  __mspabi_fltuf                             
+0000e82a  Grace_init                                 
+0000e84c  __mspabi_mpyl_f5hw                         
+0000e86e  WDT_A_hold                                 
+0000e88e  DelayMicroSeconds                          
+0000e8ac  GPIO_getInputPinValue                      
+0000e8c8  GPIO_setOutputHighOnPin                    
+0000e8e4  GPIO_setOutputLowOnPin                     
+0000e900  strchr                                     
+0000e91c  strcmp                                     
+0000e938  _abort_msg                                 
+0000e952  memchr                                     
+0000e968  __mspabi_mpyi_f5hw                         
+0000e97e  memcpy                                     
+0000e992  CS_setDCOFreq                              
+0000e9a4  __TI_decompress_none                       
+0000e9b6  strcpy                                     
+0000e9c8  __mspabi_sral                              
+0000e9d8  __mspabi_slll                              
+0000e9e8  __mspabi_srll                              
+0000e9f8  EUSCI_B_I2C_setMode                        
+0000ea06  strlen                                     
+0000ea14  EUSCI_B_I2C_disableInterrupt               
+0000ea20  EUSCI_B_I2C_setSlaveAddress                
+0000ea2c  ti_catalog_msp430_init_Boot_init           
+0000ea2c  xdc_runtime_Startup_reset__I               
+0000ea36  WDT_A_graceInit                            
+0000ea40  ti_catalog_msp430_init_Boot_disableWatchdog
+0000ea48  System_graceInit                           
+0000ea50  EUSCI_B_I2C_enable                         
+0000ea56  __TI_ISR_TRAP                              
+0000ea5c  __TI_decompress_rle24                      
+0000ea62  _system_pre_init                           
+0000ea66  C$$EXIT                                    
+0000ea66  abort                                      
+0000ea6a  InterruptVectors_graceInit                 
+0000ea6c  _nop                                       
 0000ffce  __TI_int31                                 
 0000ffd0  __TI_int32                                 
 0000ffd2  __TI_int33                                 
@@ -1564,5 +1863,6 @@ ffffffff  __c_args__
 ffffffff  binit                                      
 UNDEFED   __TI_INITARRAY_Base                        
 UNDEFED   __TI_INITARRAY_Limit                       
+UNDEFED   __TI_cleanup_ptr                           
 
-[642 symbols]
+[753 symbols]

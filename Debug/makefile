@@ -7,8 +7,10 @@ SHELL = cmd.exe
 CG_TOOL_ROOT := C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4
 
 ORDERED_OBJS += \
+"./I2C_HAL.obj" \
+"./SHT2x.obj" \
+"./System.obj" \
 "./main.obj" \
-"./sht25.obj" \
 "../lnk_msp430fr5739.cmd" \
 $(GEN_CMDS__FLAG) \
 -l"libmath.a" \
@@ -135,7 +137,7 @@ all: prupru.out
 prupru.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi --use_hw_mpy=F5 --advice:power=all -g --define=__MSP430FR5739__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --printf_support=minimal -z -m"prupru.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib/5xx_6xx_FRxx" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="prupru_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "prupru.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi --use_hw_mpy=F5 --advice:power=all -g --float_operations_allowed=all --define=__MSP430FR5739__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --printf_support=minimal -z -m"prupru.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib/5xx_6xx_FRxx" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="prupru_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "prupru.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -149,8 +151,8 @@ prupru.hex: $(EXE_OUTPUTS)
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(BIN_OUTPUTS__QUOTED)$(GEN_OPTS__QUOTED)$(GEN_CMDS__QUOTED)
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
-	-$(RM) "main.pp" "sht25.pp" 
-	-$(RM) "main.obj" "sht25.obj" 
+	-$(RM) "I2C_HAL.pp" "SHT2x.pp" "System.pp" "main.pp" 
+	-$(RM) "I2C_HAL.obj" "SHT2x.obj" "System.obj" "main.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
